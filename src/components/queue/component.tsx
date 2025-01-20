@@ -40,9 +40,12 @@ export const Queue = () => {
                 </div>
               ))
             ) : (
-              <div className="p-4 bg-white/5 backdrop-blur-sm rounded-xl">
-                <p className="text-gray-400">No Songs in Queue</p>
-              </div>
+              <button
+                className="p-4 bg-white/5 backdrop-blur-sm w-full rounded-xl"
+                onClick={() => setIsSearchOpen(true)}
+              >
+                No Songs in Queue
+              </button>
             )}
           </div>
         </div>

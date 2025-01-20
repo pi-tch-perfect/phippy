@@ -94,7 +94,9 @@ export const SearchDialog = ({
                   key={result.url}
                   className="p-4 bg-white/5 backdrop-blur-sm rounded-xl hover:bg-white/10 transition-colors cursor-pointer flex gap-4 items-center mb-3"
                   onClick={() => {
-                    addToQueue({ yt_link: result.url });
+                    addToQueue({
+                      yt_link: result.url,
+                    });
                     onClose();
                   }}
                 >
