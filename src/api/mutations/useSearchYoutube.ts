@@ -13,11 +13,13 @@ export const useSearchYoutube = (query: string) => {
     queryFn: async () => {
       if (!query.trim()) return [];
       const response = await youtubeClient.search(query);
-      return response?.items.map((data) => ({
-        title: data.snippet.title,
-        url: data.id.videoId,
-        thumbnail: data.snippet.thumbnails.default.url,
-      }));
+      return response?.items
+        .map((data) => ({
+          title: data.snippet.title,
+          url: data.id.videoId,
+          thumbnail: data.snippet.thumbnails.default.url,
+        }))
+        .filter((result) => Boolean(result.url));
     },
     enabled: !!query.trim(),
     placeholderData: (previousData) => previousData,

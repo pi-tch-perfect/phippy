@@ -25,6 +25,8 @@ export const SearchDialog = ({
     setDebouncedQuery(value);
   }, 300);
 
+  console.log(results.map((r) => r.url));
+
   if (!isOpen) return null;
 
   return (
