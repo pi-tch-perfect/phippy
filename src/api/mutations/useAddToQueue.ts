@@ -10,13 +10,6 @@ export type AddToQueueParams = {
 };
 
 const addToQueue = async (song: AddToQueueParams) => {
-  const existingPending = queryClient.getQueryData<Song[]>(QUERY_KEYS.pending);
-  queryClient.setQueryData(QUERY_KEYS.pending, [
-    ...(existingPending ?? []),
-    song,
-  ]);
-  console.log([...(existingPending ?? []), song]);
-
   const response = await axios.post("/queue_song", song);
   return response;
 };

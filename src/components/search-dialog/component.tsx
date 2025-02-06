@@ -25,8 +25,6 @@ export const SearchDialog = ({
     setDebouncedQuery(value);
   }, 300);
 
-  console.log(results.map((r) => r.url));
-
   if (!isOpen) return null;
 
   return (
@@ -93,7 +91,9 @@ export const SearchDialog = ({
                   onClick={() => {
                     addToQueue({
                       yt_link: result.url,
-                      name: result.title,
+                      name: result.title
+                        .replace(/[^a-zA-Z0-9\s]/g, "")
+                        .replace(/\s/g, "_"),
                     });
                     onClose();
                   }}

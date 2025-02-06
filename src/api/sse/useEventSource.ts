@@ -30,11 +30,19 @@ export const useEventSource = () => {
                     ...data.current_song,
                   });
                   return;
-                case EventType.QueueChangeEvent:
+                case EventType.QueueChange:
                   queryClient.setQueryData<Song[]>(
                     QUERY_KEYS.queue,
                     data.queue
                   );
+                  break;
+                case EventType.KeyChange:
+                  queryClient.setQueryData<number>(
+                    QUERY_KEYS.key,
+                    data.current_key
+                  );
+                  break;
+                case EventType.TogglePlayback:
                   break;
                 default:
                   console.log("invalid event type", data);

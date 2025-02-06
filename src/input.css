@@ -15,13 +15,35 @@ body {
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
+.admin-dialog {
+  transition: all 300ms ease-in-out;
+  transform: translateY(1px);
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.admin-dialog.open {
+  transform: translateY(0);
+  opacity: 1;
+  max-height: 500px;
+}
+
+.admin-dialog-hidden {
+  display: none;
+  height: 0;
+}
+
 .fade-out {
   transition: opacity 2s ease-out;
 }
 
 #root {
-  /* width: 100vw;
-  height: calc(100vh - env(safe-area-inset-bottom));
-  bottom: env(safe-area-inset-bottom);
-  padding-bottom: max(400px, env(safe-area-inset-bottom)); */
+  overscroll-behavior: none;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
