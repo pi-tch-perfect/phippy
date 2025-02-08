@@ -1,14 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../queryKeys";
-import type { CurrentSongChangeEvent, QueueUpdatedEvent } from "./types";
-
-export const useCurrentSongChanges = () => {
-  const queryData = useQuery<CurrentSongChangeEvent["current_song"]>({
-    queryKey: QUERY_KEYS.currentSong,
-    enabled: true,
-  });
-  return { ...queryData, data: { ...queryData.data } };
-};
+import type { QueueUpdatedEvent } from "./types";
+import { formatSong } from "../../utils/format";
 
 export const useQueueChanges = () => {
   const { data: queueData } = useQuery<QueueUpdatedEvent["queue"]>({
@@ -16,5 +9,5 @@ export const useQueueChanges = () => {
     enabled: true,
   });
 
-  return queueData || [];
+  return queueData?.map(formatSong) || [];
 };

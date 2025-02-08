@@ -1,5 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "../axios";
+import queryClient from "../queryClient";
+import { QUERY_KEYS } from "../queryKeys";
 
 const skip = async () => {
   const response = await axios.post("/play_next");
@@ -14,6 +16,9 @@ const togglePlayback = async () => {
 export const useSkip = () => {
   return useMutation({
     mutationFn: skip,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.key });
+    },
   });
 };
 

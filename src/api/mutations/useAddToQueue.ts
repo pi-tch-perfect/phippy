@@ -11,6 +11,8 @@ export type AddToQueueParams = {
 
 const addToQueue = async (song: AddToQueueParams) => {
   const response = await axios.post("/queue_song", song);
+  console.log(song);
+
   return response;
 };
 

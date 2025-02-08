@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsSkipForwardFill } from "react-icons/bs";
 import { PiPlayPauseBold } from "react-icons/pi";
 import { TbMinus, TbPlus } from "react-icons/tb";
 import { useSkip, useTogglePlayback } from "../../api/mutations/useControls";
 import { useKeyDown, useKeyUp } from "../../api/mutations/usePitch";
 import { useKey } from "../../api/queries/useKey";
-
-const AUTH_KEY = "admin_authentication";
-const AUTH_EXPIRY = 30 * 60 * 1000; // 30 minutes in milliseconds
-const PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+import { useAuth } from "../../api/queries/useAuth";
 
 export const AdminDialog = ({ className }: { className?: string }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const { mutate: skip } = useSkip();
@@ -19,27 +15,12 @@ export const AdminDialog = ({ className }: { className?: string }) => {
   const { mutate: keyUp } = useKeyUp();
   const { mutate: keyDown } = useKeyDown();
   const key = useKey();
-
-  useEffect(() => {
-    const storedAuth = localStorage.getItem(AUTH_KEY);
-    if (storedAuth) {
-      const { isAuthenticated, timestamp } = JSON.parse(storedAuth);
-      if (isAuthenticated && Date.now() - timestamp < AUTH_EXPIRY) {
-        setIsAuthenticated(true);
-      }
-    }
-  }, []);
+  const { isAuthenticated, login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === PASSWORD) {
-      setIsAuthenticated(true);
-      setError(false);
-      localStorage.setItem(
-        AUTH_KEY,
-        JSON.stringify({ isAuthenticated: true, timestamp: Date.now() })
-      );
-    } else {
+    const success = login(password);
+    if (!success) {
       setError(true);
     }
   };

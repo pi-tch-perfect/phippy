@@ -12,7 +12,7 @@ export const useSearchYoutube = (query: string) => {
     queryKey: ["youtube-search", query],
     queryFn: async () => {
       if (!query.trim()) return [];
-      const response = await youtubeClient.search(query);
+      const response = await youtubeClient.search(query, 10);
       return response?.items
         .map((data) => ({
           title: data.snippet.title,

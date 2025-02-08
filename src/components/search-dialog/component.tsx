@@ -28,8 +28,19 @@ export const SearchDialog = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-purple-900/80 via-indigo-900/80 to-blue-900/80 backdrop-blur-sm flex items-center justify-center p-8">
-      <div className="bg-gray-900/90 backdrop-blur-sm rounded-2xl w-full max-w-2xl border border-white/20">
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        onClose();
+      }}
+      className="fixed inset-0 bg-gradient-to-br from-purple-900/80 via-indigo-900/80 to-blue-900/80 backdrop-blur-sm flex items-center justify-center p-8"
+    >
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className="bg-gray-900/90 backdrop-blur-sm rounded-2xl w-full max-w-2xl border border-white/20"
+      >
         <div className="flex justify-between items-center p-6 border-b border-white/10">
           <h2 className="text-2xl font-medium text-white">Search Songs</h2>
           <button
@@ -43,6 +54,9 @@ export const SearchDialog = ({
         <div className="p-6 space-y-6">
           <div className="relative">
             <input
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
               type="text"
               value={displayQuery}
               onChange={(e) => {

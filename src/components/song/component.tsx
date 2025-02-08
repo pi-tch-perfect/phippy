@@ -1,15 +1,51 @@
-import { Song } from "../../api/api-types";
-function SongItem({ i, song }: { i: number; song: Song }) {
+import { FormattedSong } from "../../api/api-types";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useAuth } from "../../api/queries/useAuth";
+
+function SongItem({ i, song }: { i: number; song: FormattedSong }) {
+  const { isAuthenticated } = useAuth();
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: song.uuid, disabled: !isAuthenticated });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  const handleStyle = {
+    touchAction: "none",
+    userSelect: "none" as const,
+  };
+
   return (
     <div
-      key={song.uuid}
-      className="p-3 sm:p-4 bg-black/20 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-black/30 transition-colors"
+      ref={setNodeRef}
+      style={style}
+      className="p-3 sm:p-4 bg-black/20 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-black/30 transition-colors pointer-events-none"
     >
       <div className="flex items-center gap-3">
+        {isAuthenticated && (
+          <svg
+            style={handleStyle}
+            className="w-4 h-4 text-purple-200/50 flex-shrink-0 cursor-grab active:cursor-grabbing pointer-events-auto"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            {...attributes}
+            {...listeners}
+          >
+            <path
+              d="M4 6h16M4 12h16M4 18h16"
+              strokeWidth="2"
+              stroke="currentColor"
+              strokeLinecap="round"
+            />
+          </svg>
+        )}
         <span className="text-sm text-purple-200/90">#{i + 1}</span>
         <div className="flex-1 min-w-0">
-          <p className="text-base sm:text-lg truncate text-white">
-            {song.name}
+          <p className="text-base sm:text-lg truncate text-white user-select-none">
+            {song.formattedName}
           </p>
         </div>
         {song.status === "InProgress" && (

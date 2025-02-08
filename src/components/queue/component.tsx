@@ -4,14 +4,61 @@ import { useQueueChanges } from "../../api/sse/hooks";
 import NowPlaying from "../now-playing/component";
 import { SearchDialog } from "../search-dialog/component";
 import SongItem from "../song/component";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  TouchSensor,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useAuth } from "../../api/queries/useAuth";
+import { useReposition } from "../../api/mutations/useReposition";
 
 export const Queue = () => {
+  const { mutate: reposition } = useReposition();
   const queue = useQueueChanges();
-  const { data: currentSong } = useCurrentSong();
+  const currentSong = useCurrentSong();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
   const nextSongs = useMemo(() => {
-    return [...queue].slice(0, 100);
+    return [...queue].slice(1, 100);
   }, [queue]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 100,
+        tolerance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    console.log("drag end", event);
+    const { active, over } = event;
+    const newIndex = over?.data.current?.sortable.index;
+    const uuid = active.id.toString();
+
+    if (active.id !== over?.id && isAuthenticated) {
+      reposition({ position: newIndex + 1, song_uuid: uuid });
+    }
+  };
 
   return (
     <div className="flex flex-1 max-h-full flex-col h-full bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 text-white">
@@ -21,11 +68,22 @@ export const Queue = () => {
         )}
 
         <div className="w-full flex-1 flex flex-col min-h-0">
-          <div className="space-y-3 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+          <div className="space-y-3 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent pointer-events-auto">
             {nextSongs.length > 0 ? (
-              nextSongs.map((song, i) => (
-                <SongItem key={song.uuid} i={i} song={song} />
-              ))
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={nextSongs.map((song) => song.uuid)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {nextSongs.map((song, i) => (
+                    <SongItem key={song.uuid} i={i} song={song} />
+                  ))}
+                </SortableContext>
+              </DndContext>
             ) : (
               <button
                 className="p-4 bg-white/5 backdrop-blur-sm w-full rounded-xl text-white"

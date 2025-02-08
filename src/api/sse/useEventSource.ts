@@ -4,6 +4,7 @@ import { useQueue } from "../queries/useQueue";
 import { QUERY_KEYS } from "../queryKeys";
 import { SSE_URL } from "./eventSource";
 import { EventType, type SSEEvent } from "./types";
+import { formatSong } from "../../utils/format";
 
 let eventSource: EventSource | null = null;
 
@@ -25,15 +26,10 @@ export const useEventSource = () => {
             try {
               const data = JSON.parse(event.data) as SSEEvent;
               switch (data.type) {
-                case EventType.CurrentSongUpdated:
-                  queryClient.setQueryData<Song>(QUERY_KEYS.currentSong, {
-                    ...data.current_song,
-                  });
-                  return;
                 case EventType.QueueChange:
                   queryClient.setQueryData<Song[]>(
                     QUERY_KEYS.queue,
-                    data.queue
+                    data.queue.map(formatSong)
                   );
                   break;
                 case EventType.KeyChange:
