@@ -28,7 +28,7 @@ export const AdminDialog = ({ className }: { className?: string }) => {
 
   return (
     <div
-      className={`sticky top-16 z-20 w-full items-center bg-slate-800 shadow-xl flex h-auto flex-col ${
+      className={`sticky top-14 z-20 w-full items-center bg-slate-800 shadow-xl flex h-auto flex-col ${
         className || ""
       }`}
     >
