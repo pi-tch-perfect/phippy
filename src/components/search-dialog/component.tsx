@@ -54,6 +54,7 @@ export const SearchDialog = ({
         <div className="p-6 space-y-6">
           <div className="relative">
             <input
+              placeholder="search for a song"
               autoComplete="off"
               autoCorrect="off"
               spellCheck="false"

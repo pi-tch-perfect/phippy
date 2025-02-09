@@ -6,6 +6,7 @@ import { useSkip, useTogglePlayback } from "../../api/mutations/useControls";
 import { useKeyDown, useKeyUp } from "../../api/mutations/usePitch";
 import { useKey } from "../../api/queries/useKey";
 import { useAuth } from "../../api/queries/useAuth";
+import { VscDebugRestart } from "react-icons/vsc";
 
 export const AdminDialog = ({ className }: { className?: string }) => {
   const [password, setPassword] = useState("");
@@ -27,14 +28,14 @@ export const AdminDialog = ({ className }: { className?: string }) => {
 
   return (
     <div
-      className={`relative w-full sm:w-80 bg-slate-800 shadow-xl flex h-auto flex-col max-h-screen overflow-y-auto ${
+      className={`sticky top-16 z-20 w-full items-center bg-slate-800 shadow-xl flex h-auto flex-col ${
         className || ""
       }`}
     >
-      <div className="overflow-hidden flex flex-col">
+      <div className="flex flex-col sm:w-9/12">
         {!isAuthenticated ? (
           <div className="flex-1 flex flex-col items-center justify-center p-4">
-            <div className="w-full max-w-xs space-y-8 px-4">
+            <div className="w-full space-y-8 px-4">
               <div className="text-center space-y-2">
                 <h3 className="text-lg font-medium text-white">
                   Authentication Required
@@ -86,7 +87,7 @@ export const AdminDialog = ({ className }: { className?: string }) => {
               <div className="rounded-xl py-4">
                 <div className="flex items-center justify-center">
                   {/* key controls */}
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <button
                       onClick={() => keyDown()}
                       className="group flex flex-col items-center"
@@ -123,7 +124,16 @@ export const AdminDialog = ({ className }: { className?: string }) => {
                   <div className="mx-6 h-20 w-px bg-white/10" />
 
                   {/* playback controls */}
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => skip()}
+                      className="group flex flex-col items-center"
+                    >
+                      <div className="p-3 bg-black/20 text-white/80 rounded-lg transition-all duration-200 group-active:scale-95">
+                        <VscDebugRestart className="text-2xl" />
+                      </div>
+                    </button>
+
                     <button className="group flex flex-col items-center">
                       <div
                         onClick={() => togglePlayback()}

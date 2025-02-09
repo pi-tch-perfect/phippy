@@ -1,8 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../queryKeys";
 
-const AUTH_KEY = "admin_auth";
-const AUTH_EXPIRY = 30 * 60 * 1000; // 30 minutes in milliseconds
+const AUTH_KEY = "admin_authi";
+const AUTH_EXPIRY = 60 * 60 * 1000; // 60 minutes in milliseconds
 
 interface AuthState {
   isAuthenticated: boolean;

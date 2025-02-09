@@ -14,13 +14,11 @@ export const App = () => {
   }
 
   return (
-    <div className="flex flex-col w-full h-[100dvh] max-h-[100dvh] bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
-      <div className={`h-full flex flex-col`}>
-        <Header onOpenAdmin={() => setIsAdminOpen(!isAdminOpen)} />
-        <AdminDialog className={`admin-dialog ${isAdminOpen ? "open" : ""}`} />
-        <div className="flex-1 min-h-0">
-          <Queue />
-        </div>
+    <div className="flex flex-col w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
+      <Header onOpenAdmin={() => setIsAdminOpen(!isAdminOpen)} />
+      <AdminDialog className={`admin-dialog ${isAdminOpen ? "open" : ""}`} />
+      <div className="flex-1 min-h-0 overflow-auto">
+        <Queue />
       </div>
     </div>
   );

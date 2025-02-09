@@ -39,9 +39,7 @@ body {
 }
 
 #root {
-  overscroll-behavior: none;
   height: 100vh;
-  overflow: hidden;
   position: fixed;
   width: 100%;
   top: 0;
