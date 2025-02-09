@@ -21,6 +21,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useAuth } from "../../api/queries/useAuth";
 import { useReposition } from "../../api/mutations/useReposition";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 export const Queue = () => {
   const { mutate: reposition } = useReposition();
@@ -68,12 +69,13 @@ export const Queue = () => {
         )}
 
         <div className="w-full flex-1 flex flex-col min-h-0">
-          <div className="space-y-3 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent pointer-events-auto">
+          <div className="space-y-3 overflow-y-auto overflow-x-hidden flex-1 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent pointer-events-auto">
             {nextSongs.length > 0 ? (
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
+                modifiers={[restrictToVerticalAxis]}
               >
                 <SortableContext
                   items={nextSongs.map((song) => song.uuid)}

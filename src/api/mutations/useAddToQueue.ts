@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "../axios";
 import queryClient from "../queryClient";
 import { QUERY_KEYS } from "../queryKeys";
-import { Song } from "../api-types";
 
 export type AddToQueueParams = {
   yt_link: string;

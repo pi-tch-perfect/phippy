@@ -4,11 +4,9 @@ import { AdminDialog } from "./components/admin-dialog/component";
 import { ErrorScreen } from "./components/error/component";
 import { Header } from "./components/header/component";
 import { Queue } from "./components/queue/component";
-import { Splash } from "./components/splash/component";
 
 export const App = () => {
   const { error } = useEventSource();
-  const [showSplash, setShowSplash] = useState(true);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   if (error) {
@@ -17,9 +15,7 @@ export const App = () => {
 
   return (
     <div className="flex flex-col w-full h-[100dvh] max-h-[100dvh] bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
-      {showSplash && <Splash onFadeComplete={() => setShowSplash(false)} />}
-
-      <div className={`h-full flex flex-col ${showSplash ? "hidden" : ""}`}>
+      <div className={`h-full flex flex-col`}>
         <Header onOpenAdmin={() => setIsAdminOpen(!isAdminOpen)} />
         <AdminDialog className={`admin-dialog ${isAdminOpen ? "open" : ""}`} />
         <div className="flex-1 min-h-0">
