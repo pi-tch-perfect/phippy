@@ -8,6 +8,7 @@ export interface Song {
   name: string;
   uuid: string;
   status: Status;
+  is_key_changeable: boolean;
 }
 
 export interface FormattedSong extends Song {

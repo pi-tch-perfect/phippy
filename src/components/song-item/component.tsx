@@ -30,7 +30,6 @@ export default function SongItem({
 
   const handleDragEnd = (_event: any, info: PanInfo) => {
     if (info.offset.x < -100 && isAuthenticated) {
-      console.log("delete song", song.uuid);
       deleteSong({ song_uuid: song.uuid });
     }
   };

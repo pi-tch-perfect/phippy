@@ -41,7 +41,7 @@ export const useEventSource = () => {
                 case EventType.TogglePlayback:
                   break;
                 default:
-                  console.log("invalid event type", data);
+                  console.error("invalid event type", data);
                   return;
               }
             } catch (e) {
@@ -62,7 +62,7 @@ export const useEventSource = () => {
           };
 
           eventSource.onopen = () => {
-            console.log("sse connection opened");
+            console.info("sse connection opened");
             resolve(null);
           };
         } else {

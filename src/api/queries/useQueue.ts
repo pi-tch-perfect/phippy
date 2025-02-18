@@ -6,13 +6,10 @@ import { QUERY_KEYS } from "../queryKeys";
 
 async function getQueue(): Promise<Array<FormattedSong>> {
   const { data } = await axiosClient.get<Array<Song>>("/song_list");
-
   return data.map(formatSong);
 }
 
 export function useQueue() {
-  console.log("useQUeue called");
-
   return useQuery<Array<FormattedSong>>({
     queryFn: getQueue,
     queryKey: QUERY_KEYS.queue,

@@ -1,27 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
-import { youtubeClient } from "../../youtube/YoutubeClient";
+import axios from "../axios";
 
 export type SearchResult = {
   title: string;
   url: string;
-  thumbnail: string;
+  id: string;
+};
+
+export type SearchSongParams = {
+  query: string;
+};
+
+const searchYoutube = async (query: string) => {
+  const response = await axios.get<Array<SearchResult>>("/search", {
+    params: {
+      query: `${query} karaoke`,
+    },
+  });
+  return response.data;
 };
 
 export const useSearchYoutube = (query: string) => {
   return useQuery({
     queryKey: ["youtube-search", query],
-    queryFn: async () => {
-      if (!query.trim()) return [];
-      const response = await youtubeClient.search(query, 10);
-      return response?.items
-        .map((data) => ({
-          title: data.snippet.title,
-          url: data.id.videoId,
-          thumbnail: data.snippet.thumbnails.default.url,
-        }))
-        .filter((result) => Boolean(result.url));
-    },
+    queryFn: () => searchYoutube(query),
     enabled: !!query.trim(),
-    placeholderData: (previousData) => previousData,
   });
 };

@@ -6,6 +6,7 @@ import { QUERY_KEYS } from "../queryKeys";
 export type AddToQueueParams = {
   yt_link: string;
   name: string;
+  is_key_changeable: boolean;
 };
 
 const addToQueue = async (song: AddToQueueParams) => {

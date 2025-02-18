@@ -7,6 +7,8 @@ import { useKeyDown, useKeyUp } from "../../api/mutations/usePitch";
 import { useKey } from "../../api/queries/useKey";
 import { useAuth } from "../../api/queries/useAuth";
 import { VscDebugRestart } from "react-icons/vsc";
+import { useCurrentSong } from "../../api/queries/useCurrentSong";
+import { useRestartSong } from "../../api/mutations/useRestart";
 
 export const AdminDialog = ({ className }: { className?: string }) => {
   const [password, setPassword] = useState("");
@@ -17,6 +19,9 @@ export const AdminDialog = ({ className }: { className?: string }) => {
   const { mutate: keyDown } = useKeyDown();
   const key = useKey();
   const { isAuthenticated, login } = useAuth();
+  const { mutate: restartSong } = useRestartSong();
+
+  const currentSong = useCurrentSong();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,8 +92,15 @@ export const AdminDialog = ({ className }: { className?: string }) => {
               <div className="rounded-xl py-4">
                 <div className="flex items-center justify-center">
                   {/* key controls */}
-                  <div className="flex items-center gap-3">
+                  <div
+                    className={`flex items-center gap-3 ${
+                      !currentSong?.is_key_changeable
+                        ? "opacity-50 pointer-events-none"
+                        : ""
+                    }`}
+                  >
                     <button
+                      disabled={!currentSong?.is_key_changeable}
                       onClick={() => keyDown()}
                       className="group flex flex-col items-center"
                     >
@@ -111,6 +123,7 @@ export const AdminDialog = ({ className }: { className?: string }) => {
                     </div>
 
                     <button
+                      disabled={!currentSong?.is_key_changeable}
                       onClick={() => keyUp()}
                       className="group flex flex-col items-center"
                     >
@@ -126,7 +139,7 @@ export const AdminDialog = ({ className }: { className?: string }) => {
                   {/* playback controls */}
                   <div className="flex items-center gap-3">
                     <button
-                      onClick={() => skip()}
+                      onClick={() => restartSong()}
                       className="group flex flex-col items-center"
                     >
                       <div className="p-3 bg-black/20 text-white/80 rounded-lg transition-all duration-200 group-active:scale-95">

@@ -8,7 +8,7 @@ export type DeleteSongParams = {
 };
 
 const deleteSong = async (song: DeleteSongParams) => {
-  const response = await axios.post("/delete_song", song);
+  const response = await axios.post("/remove_song", song);
   return response;
 };
 

@@ -4,7 +4,6 @@ import axiosClient from "../axios";
 
 const fetchKey = async () => {
   const response = await axiosClient.get<number>("get_key");
-  console.log(response);
 
   return response.data;
 };
