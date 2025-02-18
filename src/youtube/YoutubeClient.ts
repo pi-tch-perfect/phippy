@@ -69,12 +69,13 @@ export class YoutubeClient {
     this.apiKey = apiKey;
   }
 
-  async search(query: string, maxResults = 25) {
+  async search(query: string, maxResults = 10) {
     const response = await axios.get<YoutubeSearchResponse>(
       `${this.baseUrl}/search`,
       {
         params: {
           part: "snippet",
+          type: "video",
           maxResults,
           q: query + "karaoke",
           key: this.apiKey,
