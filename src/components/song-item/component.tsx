@@ -28,7 +28,7 @@ export default function SongItem({
   const opacity = useTransform(x, [-100, 0], [1, 0]);
   const background = useTransform(x, [-100, 0], ["#ef4444", "#ef444400"]);
 
-  const handleDragEnd = (event: any, info: PanInfo) => {
+  const handleDragEnd = (_event: any, info: PanInfo) => {
     if (info.offset.x < -100 && isAuthenticated) {
       console.log("delete song", song.uuid);
       deleteSong({ song_uuid: song.uuid });
