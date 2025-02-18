@@ -33,7 +33,7 @@ export const SearchDialog = ({
         e.stopPropagation();
         onClose();
       }}
-      className="fixed inset-0 bg-gradient-to-br from-purple-900/80 via-indigo-900/80 to-blue-900/80 backdrop-blur-sm flex items-center justify-center p-8"
+      className="z-50 fixed inset-0 bg-gradient-to-br from-purple-900/80 via-indigo-900/80 to-blue-900/80 backdrop-blur-sm flex items-center justify-center p-8"
     >
       <div
         onClick={(e) => {
